@@ -1,0 +1,35 @@
+{
+  "name": "some-schema",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "some schema dsl",
+  "keywords": [
+    "some", "schema", "domain", "specific", "language",
+    "data", "validate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freaking-awesome/some-schema.git"
+  },
+  "author": {
+    "name": "Teh Freak",
+    "email": "tehfreak@tehfreak.com"
+  },
+  "main": "./lib/Schema",
+  "bin": {
+    "some-schema": "./bin/schema"
+  },
+  "scripts": {
+    "test": "mocha --reporter nyan"
+  },
+  "dependencies": {
+    "async": "latest",
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "engines": {
+    "node": ">=0.6"
+  }
+}

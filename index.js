@@ -1,0 +1,1 @@
+var Schema= module.exports= require('./lib/Schema')
