@@ -89,7 +89,7 @@ assert( baz.properties.o === undefined )
 
  
 
-# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/Property)
+# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/models/Property)
 Модель свойства схемы. Атомарная единица модели данных.
 
 ##### Параметры свойств 
