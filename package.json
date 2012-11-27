@@ -5,7 +5,7 @@
   "description": "some schema dsl",
   "keywords": [
     "some", "schema", "domain", "specific", "language",
-    "data", "validate"
+    "data", "object", "model", "validate"
   ],
   "repository": {
     "type": "git",
@@ -20,10 +20,10 @@
     "some-schema": "./bin/schema"
   },
   "scripts": {
-    "test": "mocha --reporter nyan"
+    "test": "node tests/design.js"
   },
   "dependencies": {
-    "async": "latest",
+
   },
   "devDependencies": {
     "mocha": "*",
