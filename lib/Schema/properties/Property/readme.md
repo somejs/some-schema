@@ -42,22 +42,22 @@ descriptor= Schema.Property(
 
 ##### Методы класса
 
-### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L128) (obj, k, descriptor)
+### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L129) (obj, k, descriptor)
 Определяет свойство в указанном объекте **obj** под именем **k** согласно определению **descriptor**.
 
-### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L142) (obj, iterator)
+### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L143) (obj, iterator)
 Получает дескрипторы свойств объекта **obj** и передает их, и их имена в функцию **iterator(property, k)**
 Если **iterator** не указан, — возвращает массив дескрипторов.
 
-### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L161) (src, obj)
+### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L162) (src, obj)
 Копирует свойства из объекта **src** в объект **obj**.
 
  
 
 ##### Методы экземпляра
 
-### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L96) (obj, k)
+### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L97) (obj, k)
 Определяет текущее свойство в указанном объекте **obj** под именем **k**.
 
-### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L110) (value)
+### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L111) (value)
 Проверяет значение **value** на соответствие требованиям свойства.
