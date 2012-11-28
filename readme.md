@@ -1,4 +1,4 @@
-# [some.js](http://somejs.org/) / schema
+# [some.js](http://somejs.org/) / schema [![Build Status](https://secure.travis-ci.org/freaking-awesome/some-schema.png)](http://travis-ci.org/freaking-awesome/some-schema)
 Язык моделирования и декларативного описания данных.
 
 Используется для моделирования сложных иерархических структур данных простым наглядным способом в виде вложенных схем. Поддерживает наследование и переопределение свойств. Реализует возможность валидации значений.
