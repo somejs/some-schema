@@ -65,58 +65,76 @@ assert( baz.properties.o === undefined )
 
  
 
-## Документация
-Будет [тут](http://api.somejs.org)
-
- 
-
-## API
+## API и [документация](http://api.somejs.org)
 
  
 
 # [Schema](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema)
-Схема. Модель структуры данных.
+Модель структуры данных. Схема данных.
 
  
 
 ##### Методы класса
 
-### [Schema.factory]() (Parent, properties)
+### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L28) (Parent, properties)
 Производит конструктор схемы на основе родительского конструктора **parent**, расширеный указанными свойствами **properties**.
 
-### [Schema.init]() (obj, properties, values)
+### [Schema.init](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L63) (obj, properties, values)
 Объявляет свойства в экземпляре схемы **obj** по определениям **properties**, и заполняет их значениями **values**.
 
  
 
-# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/models/Property)
+# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/properties/Propertyhttps://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L)
 Модель свойства схемы. Атомарная единица модели данных.
+
+Представляет собой js-совместимый дескриптор свойства. Может быть сконструирован из js-дескриптора:
+```javascript
+descriptor= new Schema.Property(
+    Object.getOwnPropertyDescriptor(obj, 'foo')
+)
+```
+
+И может быть использован в качестве js-дескриптора:
+```javascript
+descriptor= Schema.Property(
+    Object.defineProperty(obj, 'foo', new Schema.Property(
+        configurable:true, default:null
+    ))
+)
+```
+
+Если при инстанцировании не указано значение, — ```decriptor.value```, — тогда дескриптор будет создан с закрытым от прямого изменения, — с помощь сеттера и геттера, — значением ```null```
+
+ 
 
 ##### Параметры свойств 
 * **require**, или **required** — указывает на то, что свойство обязательно должно иметь некое значение. Простейший валидатор.
-* **validate** — функция проверки значения. Может менять устанавливаемое значение. Для неподходящего бросает исключение **BadValueError**
+* **validate** — функция проверки значения. Может менять устанавливаемое значение. Для неподходящего бросает исключение ```BadValueError```
 
-* **enumerable** — свойство должно быть видимо. По умолчанию — **false**.
-* **configurable** — определение свойства можно изменить. По умолчанию — **false**.
-* **writable** — значение можно изменить. По умолчанию — **false**.
+* **enumerable** — свойство должно быть видимо. По умолчанию — ```false```.
+* **configurable** — определение свойства можно изменить. По умолчанию — ```false```.
+* **writable** — значение можно изменить. По умолчанию — ```false```.
 
  
 
 ##### Методы класса
 
-### [Property.define]() (obj, k, descriptor)
+### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L128) (obj, k, descriptor)
 Определяет свойство в указанном объекте **obj** под именем **k** согласно определению **descriptor**.
 
-### [Property.map]() (source, iterator)
-Получает дескрипторы свойств объекта **source** и передает их, и их имена в функцию **iterator(property, p)**
+### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L142) (obj, iterator)
+Получает дескрипторы свойств объекта **obj** и передает их, и их имена в функцию **iterator(property, k)**
 Если **iterator** не указан, — возвращает массив дескрипторов.
 
-### [Property.copy]() (source, target)
-Копирует свойства из объекта **source** в объект **target**.
+### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L161) (src, obj)
+Копирует свойства из объекта **src** в объект **obj**.
 
  
 
 ##### Методы экземпляра
 
-### [property.define]() (obj, p, options)
-Определяет текущее свойство в указанном объекте **obj** под именем **p**.
+### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L96) (obj, k)
+Определяет текущее свойство в указанном объекте **obj** под именем **k**.
+
+### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L110) (value)
+Проверяет значение **value** на соответствие требованиям свойства.

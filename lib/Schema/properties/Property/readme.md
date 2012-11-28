@@ -1,16 +1,18 @@
 # [Some.js](http://somejs.org/) / [Schema](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema) / Property
 Свойство схемы. Атомарная единица модели данных.
 
-Представляет собой js-совместимый дескриптор свойства.
+ 
 
-Может быть сконструировано из js-дескриптора:
+**Schema.Property** представляет собой js-совместимый дескриптор свойства.
+
+Представляет собой js-совместимый дескриптор свойства. Может быть сконструирован из js-дескриптора:
 ```javascript
 descriptor= new Schema.Property(
     Object.getOwnPropertyDescriptor(obj, 'foo')
 )
 ```
 
-И может быть использовано в качестве js-дескриптора:
+И может быть использован в качестве js-дескриптора:
 ```javascript
 descriptor= Schema.Property(
     Object.defineProperty(obj, 'foo', new Schema.Property(
@@ -19,7 +21,7 @@ descriptor= Schema.Property(
 )
 ```
 
-Если при инстанцировании модели свойства не указано его значение, — ```decriptor.value```, — тогда дескриптор будет создан с закрытым от прямого изменения, — с помощь сеттера и геттера, — значением ```null```
+Если при инстанцировании не указано значение, — ```decriptor.value```, — тогда дескриптор будет создан с закрытым от прямого изменения, — с помощь сеттера и геттера, — значением ```null```
 
  
 
@@ -40,22 +42,22 @@ descriptor= Schema.Property(
 
 ##### Методы класса
 
-### [Property.define]() (obj, k, descriptor)
+### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L128) (obj, k, descriptor)
 Определяет свойство в указанном объекте **obj** под именем **k** согласно определению **descriptor**.
 
- 
-
-### [Property.map]() (source, iterator)
-Получает дескрипторы свойств объекта **source** и передает их, и их имена в функцию **iterator(property, p)**
+### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L142) (obj, iterator)
+Получает дескрипторы свойств объекта **obj** и передает их, и их имена в функцию **iterator(property, k)**
 Если **iterator** не указан, — возвращает массив дескрипторов.
 
-
-### [Property.copy]() (source, target)
-Копирует свойства из объекта **source** в объект **target**.
+### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L161) (src, obj)
+Копирует свойства из объекта **src** в объект **obj**.
 
  
 
 ##### Методы экземпляра
 
-### [property.define]() (obj, p, options)
-Определяет текущее свойство в указанном объекте **obj** под именем **p**.
+### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L96) (obj, k)
+Определяет текущее свойство в указанном объекте **obj** под именем **k**.
+
+### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L110) (value)
+Проверяет значение **value** на соответствие требованиям свойства.
