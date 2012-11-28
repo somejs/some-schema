@@ -44,7 +44,7 @@ var baz= new Baz({
     'o':'other',
 })
 ```
-Возвращает объект определенного типа с объявленными свойствами согласно схемы:
+Возвращает объект определенного типа с объявленными свойствами согласно схеме:
 
 ```javascript
 assert(baz instanceof Schema === true)
@@ -52,7 +52,7 @@ assert(baz instanceof Schema === true)
 assert(baz instanceof Baz === true, baz instanceof Bar === true, baz instanceof Foo === true)
 ```
 
-Определения схемы доступно в экземпляре схемы в свойстве **properties**:
+Определения свойств доступны в экземпляре в свойстве **properties**:
 ```javascript
 assert( baz.properties )
 
