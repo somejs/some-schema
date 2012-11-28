@@ -5,7 +5,7 @@
   "description": "some schema dsl",
   "keywords": [
     "some", "schema", "domain", "specific", "language",
-    "data", "object", "model", "validate"
+    "data", "model", "validate"
   ],
   "repository": {
     "type": "git",
@@ -13,14 +13,14 @@
   },
   "author": {
     "name": "Teh Freak",
-    "email": "tehfreak@tehfreak.com"
+    "email": "tehfreak@awesome39.com"
   },
   "main": "./lib/Schema",
   "bin": {
     "some-schema": "./bin/schema"
   },
   "scripts": {
-    "test": "node tests/design.js"
+    "test": "mocha --reporter spec"
   },
   "dependencies": {
 
