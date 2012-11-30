@@ -1,5 +1,5 @@
-# [some.js](http://somejs.org/) / schema [![Build Status](https://secure.travis-ci.org/freaking-awesome/some-schema.png)](http://travis-ci.org/freaking-awesome/some-schema)
-Язык моделирования и декларативного описания данных.
+# Язык декларативного описания данных [![Build Status](https://secure.travis-ci.org/freaking-awesome/some-schema.png)](http://travis-ci.org/freaking-awesome/some-schema)
+## [some.js](http://somejs.org/schema) / schema
 
 Используется для моделирования сложных иерархических структур данных простым наглядным способом в виде вложенных схем. Поддерживает наследование и переопределение свойств. Реализует возможность валидации значений.
 
@@ -69,23 +69,34 @@ assert( baz.properties.o === undefined )
 
  
 
+ 
+
 # [Schema](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema)
-Модель структуры данных. Схема данных.
+Конструктор схемы.
 
  
 
 ##### Методы класса
 
-### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L29) (Parent, properties)
+### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L57)(properties)
+Конструктор схемы. Возвращает дочерний конструктор, расширенный переданными определениями **properties**.
+
+### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L45)(Parent, properties)
 Производит конструктор схемы на основе родительского конструктора **parent**, расширеный указанными свойствами **properties**.
 
-### [Schema.init](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L64) (obj, properties, values)
-Объявляет свойства в экземпляре схемы **obj** по определениям **properties**, и заполняет их значениями **values**.
+ 
+
+##### Методы экземпляра
+
+### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L2)(value)
+Конструктор экземпляра. Инстанцирует экземпляр схемы, объявляет свойства, и заполняет их переданными значениями **values**.
+
+ 
 
  
 
 # [Schema.Property](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property)
-Модель свойства схемы. Атомарная единица модели данных.
+Конструктор свойства схемы.
 
 Представляет собой js-совместимый дескриптор свойства. Может быть сконструирован из js-дескриптора:
 ```javascript
@@ -119,22 +130,36 @@ descriptor= Schema.Property(
 
 ##### Методы класса
 
-### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L129) (obj, k, descriptor)
+### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L135)(obj, k, descriptor)
 Определяет свойство в указанном объекте **obj** под именем **k** согласно определению **descriptor**.
 
-### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L143) (obj, iterator)
+### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L149)(obj, iterator)
 Получает дескрипторы свойств объекта **obj** и передает их, и их имена в функцию **iterator(property, k)**
 Если **iterator** не указан, — возвращает массив дескрипторов.
 
-### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L162) (src, obj)
+### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L168) (src, obj)
 Копирует свойства из объекта **src** в объект **obj**.
 
  
 
 ##### Методы экземпляра
 
-### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L97) (obj, k)
+### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L103)(obj, k)
 Определяет текущее свойство в указанном объекте **obj** под именем **k**.
 
-### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L111) (value)
+### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L117)(value)
 Проверяет значение **value** на соответствие требованиям свойства.
+
+ 
+
+ 
+
+# [Schema.Property.BadValue](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/properties/Property/index.js#L189)
+Ошибка валидации значения.
+
+ 
+
+ 
+
+## Лицензия
+MIT

@@ -1,5 +1,5 @@
-# [Some.js](http://somejs.org/) / Schema
-Схема. Модель структуры данных.
+# Модель структуры данных
+## [Some.js](http://somejs.org/schema) / Schema
 
  
 
@@ -7,17 +7,31 @@
 
  
 
-##### Модели
+##### Методы класса
 
-# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/models/Property)
+### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L57)(properties)
+Конструктор схемы. Возвращает дочерний конструктор, расширенный переданными определениями **properties**.
+
+### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L45)(Parent, properties)
+Производит конструктор схемы на основе родительского конструктора **parent**, расширеный указанными свойствами **properties**.
+
+ 
+
+##### Методы экземпляра
+
+### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L2)(value)
+Конструктор экземпляра. Инстанцирует экземпляр схемы, объявляет свойства, и заполняет их переданными значениями **values**.
+
+ 
+
+##### Экспортирует
+
+# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/properties/Property)
 Модель свойства схемы. Атомарная единица модели данных.
 
  
 
-##### Методы класса
+ 
 
-### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L38) (Parent, properties)
-Производит конструктор схемы на основе родительского конструктора **parent**, расширеный указанными свойствами **properties**.
-
-### [Schema.init](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L69) (obj, properties, values)
-Объявляет свойства в экземпляре схемы **obj** по определениям **properties**, и заполняет их значениями **values**.
+## Лицензия
+MIT
