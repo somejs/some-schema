@@ -1,5 +1,74 @@
 var Schema= require('../lib/Schema')
 
+console.log(
+    Schema instanceof Function,
+    Schema.prototype === Schema.prototype.constructor.prototype
+)
+
+
+
+var Foo= Schema({
+        f:'foo'
+    })
+  , foo= new Foo()
+
+console.log(
+    Foo instanceof Function,
+    foo instanceof Foo, foo instanceof Schema
+)
+
+
+
+var Bar= Foo({
+        f:'foo-oo',
+        b:'bar'
+    })
+  , bar= new Bar()
+
+console.log(
+    Bar instanceof Function,
+    bar instanceof Bar, bar instanceof Foo, bar instanceof Schema,
+    bar.f == 'foo-oo', bar.b == 'bar'
+)
+
+
+
+var Foo= Schema({
+        f:'foo'
+    })
+  , foo= new Foo()
+
+console.log(
+    Foo instanceof Function,
+    foo instanceof Foo, foo instanceof Schema
+)
+
+
+
+var Baz= Bar({
+        f:'foo-oo-o',
+        b:'baz'
+    })
+  , baz= new Baz()
+
+console.log(
+    Baz instanceof Function,
+    baz instanceof Baz, baz instanceof Bar, baz instanceof Foo, baz instanceof Schema,
+    baz.f == 'foo-oo-o', baz.b == 'baz'
+)
+
+
+
+var Model= function () {
+    Schema.apply(this, arguments)
+}
+Model.prototype= Schema.prototype
+Model.prototype.protoprop= true
+
+var model= new Model()
+
+console.log(model instanceof Model, model instanceof Schema, model.protoprop)
+
 
 
 var Foo= Schema({
