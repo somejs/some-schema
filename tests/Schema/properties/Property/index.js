@@ -69,11 +69,41 @@ module.exports= function (Property) { return function () {
                 )
             })
 
+        })
 
-            // Экземпляр свойства представляет собой js-совместимый дескриптор свойства
-            // Имеет опции: configurable, enumerable, set, get
-            // Может быть сконструирован из js-дескриптора свойства
-            // Может быть передан в js-функцию Object.defineProperty
+
+
+        describe('параметр `type` указывает конструктор, экземпляром которого должно быть значение свойства', function () {
+
+            var property= new Property({
+                type:Function
+            })
+
+            it('имеет параметр type', function () {
+                assert.isDefined(
+                    property.type
+                )
+            })
+
+            it('позволяет установить только значение определенного типа', function () {
+                var fn= function() {
+
+                }
+                assert.equal(
+                    property.validate(fn), fn
+                )
+            })
+
+            it('другое значение выбросит исключение', function () {
+                try {
+                    property.validate(123), 123
+                } catch (e) {
+                    assert.equal(
+                        e.name, 'Bad Value'
+                    )
+                }
+            })
+
         })
 
     })
