@@ -1,3 +1,3 @@
-describe('Schema /', require('./tests/Schema')(
+describe('some-schema', require('./tests/Schema')(
     require('./lib/Schema')
 ))

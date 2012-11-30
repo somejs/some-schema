@@ -8,18 +8,21 @@ console.log(
 
 
 var Foo= Schema({
+        lol: Schema.Property({ default:'lol' }),
         f:'foo'
     })
   , foo= new Foo()
 
 console.log(
     Foo instanceof Function,
-    foo instanceof Foo, foo instanceof Schema
+    foo instanceof Foo, foo instanceof Schema,
+    foo.f == 'foo', foo.lol == 'lol'
 )
 
 
 
 var Bar= Foo({
+        lol: Schema.Property({ default:'ololo' }),
         f:'foo-oo',
         b:'bar'
     })
@@ -28,7 +31,7 @@ var Bar= Foo({
 console.log(
     Bar instanceof Function,
     bar instanceof Bar, bar instanceof Foo, bar instanceof Schema,
-    bar.f == 'foo-oo', bar.b == 'bar'
+    bar.f == 'foo-oo', bar.b == 'bar', bar.lol == 'ololo'
 )
 
 
