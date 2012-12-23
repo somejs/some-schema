@@ -170,3 +170,43 @@ try {
         model.key !== false, model.key == 'path/to/data'
     )
 }
+
+
+
+var Sch= Schema({
+    type:'sch',
+    children: Schema({
+        type:'child0',
+        children: Schema({
+            type:'child1',
+            children: Schema({
+                type:'child2'
+            })
+        })
+    })
+})
+var sch= new Sch
+console.log(
+    sch instanceof Schema,
+    sch instanceof Schema.Property,
+    sch.children instanceof Schema,
+    sch.children.type == 'child0',
+    sch.children.children instanceof Schema,
+    sch.children.children.type == 'child1',
+    sch.children.children.children instanceof Schema,
+    sch.children.children.children.type == 'child2'
+)
+sch.children= {
+    type:'child-0',
+    children: {
+        type:'child-1',
+        children: {
+            type:'child-2'
+        }
+    }
+}
+console.log(
+    sch.children.type == 'child-0',
+    sch.children.children.type == 'child-1',
+    sch.children.children.children.type == 'child-2'
+)
