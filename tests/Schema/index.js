@@ -53,11 +53,6 @@ var describeConstructorProperties= function (properties) { return function () {
             properties
         )
     })
-    it('содержит определение свойства `properties.type` со значением `schema`', function () {
-        assert.equal(
-            'schema', properties.type
-        )
-    })
 }}
 
 var describeInstance= function (Schema, properties) { return function () {
@@ -75,9 +70,6 @@ var describeInstance= function (Schema, properties) { return function () {
         )
     })
     it('имеет определенные свойства', function () {
-        assert.equal(
-            schema.type, 'schema'
-        )
         assert.equal(
             schema.other, 'something'
         )

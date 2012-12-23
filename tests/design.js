@@ -11,12 +11,15 @@ var Foo= Schema({
         lol: Schema.Property({ default:'lol' }),
         f:'foo'
     })
-  , foo= new Foo()
+  , foo= new Foo({
+        lol: 'ololo',
+        f:'Foo'
+    })
 
 console.log(
     Foo instanceof Function,
     foo instanceof Foo, foo instanceof Schema,
-    foo.f == 'foo', foo.lol == 'lol'
+    foo.lol == 'ololo', foo.f == 'Foo'
 )
 
 
@@ -32,18 +35,6 @@ console.log(
     Bar instanceof Function,
     bar instanceof Bar, bar instanceof Foo, bar instanceof Schema,
     bar.f == 'foo-oo', bar.b == 'bar', bar.lol == 'ololo'
-)
-
-
-
-var Foo= Schema({
-        f:'foo'
-    })
-  , foo= new Foo()
-
-console.log(
-    Foo instanceof Function,
-    foo instanceof Foo, foo instanceof Schema
 )
 
 
@@ -66,11 +57,11 @@ var Model= function () {
     Schema.apply(this, arguments)
 }
 Model.prototype= Schema.prototype
-Model.prototype.protoprop= true
 
 var model= new Model()
-
-console.log(model instanceof Model, model instanceof Schema, model.protoprop)
+console.log(
+    model instanceof Model, model instanceof Schema
+)
 
 
 

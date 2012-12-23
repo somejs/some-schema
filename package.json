@@ -1,6 +1,6 @@
 {
   "name": "some-schema",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "some schema dsl",
   "keywords": [
@@ -23,7 +23,6 @@
     "test": "mocha --reporter spec"
   },
   "dependencies": {
-
   },
   "devDependencies": {
     "mocha": "*",
