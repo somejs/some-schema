@@ -48,18 +48,14 @@ var baz= new Baz({
 
 ```javascript
 assert(baz instanceof Schema === true)
-
 assert(baz instanceof Baz === true, baz instanceof Bar === true, baz instanceof Foo === true)
 ```
 
 Определения свойств доступны в экземпляре в свойстве **properties**:
 ```javascript
 assert( baz.properties )
-
 assert( baz.properties.f.default === 'foo', baz.properties.f.value === 'foo-oo-o' )
-
 assert( baz.properties.b.default === 'bar' )
-
 assert( baz.properties.o === undefined )
 ```
 
@@ -80,9 +76,6 @@ assert( baz.properties.o === undefined )
 
 ### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L57)(properties)
 Конструктор схемы. Возвращает дочерний конструктор, расширенный переданными определениями **properties**.
-
-### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L45)(Parent, properties)
-Производит конструктор схемы на основе родительского конструктора **parent**, расширеный указанными свойствами **properties**.
 
  
 

@@ -12,9 +12,6 @@
 ### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L57)(properties)
 Конструктор схемы. Возвращает дочерний конструктор, расширенный переданными определениями **properties**.
 
-### [Schema.factory](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L45)(Parent, properties)
-Производит конструктор схемы на основе родительского конструктора **parent**, расширеный указанными свойствами **properties**.
-
  
 
 ##### Методы экземпляра
