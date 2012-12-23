@@ -9,14 +9,14 @@
 
 ##### Методы класса
 
-### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L57)(properties)
+### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L5)(properties)
 Конструктор схемы. Возвращает дочерний конструктор, расширенный переданными определениями **properties**.
 
  
 
 ##### Методы экземпляра
 
-### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L2)(value)
+### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L81)(value)
 Конструктор экземпляра. Инстанцирует экземпляр схемы, объявляет свойства, и заполняет их переданными значениями **values**.
 
  

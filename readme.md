@@ -23,11 +23,9 @@ var Schema= require('some-schema')
 var Foo= Schema({
     'f': 'foo',
 })
-
 var Bar= Foo({
     'b': Schema.Property({ default:'bar' }),
 })
-
 var Baz= Bar({
     'b': Schema.Property({ default:'baz' }),
 })
@@ -53,10 +51,35 @@ assert(baz instanceof Baz === true, baz instanceof Bar === true, baz instanceof 
 
 Определения свойств доступны в экземпляре в свойстве **properties**:
 ```javascript
-assert( baz.properties )
-assert( baz.properties.f.default === 'foo', baz.properties.f.value === 'foo-oo-o' )
-assert( baz.properties.b.default === 'bar' )
-assert( baz.properties.o === undefined )
+assert(baz.properties)
+assert(baz.properties.f.default === 'foo', baz.properties.f.value === 'foo-oo-o')
+assert(baz.properties.b.default === 'bar')
+assert(baz.properties.o === undefined)
+```
+
+В качестве определения свойства можно использовать конструктор схемы:
+```javascript
+var User= Schema({
+    'type': 'user',
+    'name': Schema.Property({ default:'anonymous' }),
+    'profile': Schema({
+        'type': 'profile',
+        'firstname': Schema.Property(),
+        'lastname': Schema.Property(),
+        'midname': Schema.Property(),
+    })
+})
+
+var user= new User({
+    name: 'Alice',
+    profile: {
+        'firstname': 'Alice',
+        'lastname': 'Selezneva'
+    }
+})
+
+assert(user.properties.name instanceof Schema.Property)
+assert(user.properties.profile instanceof Schema)
 ```
 
  
@@ -74,14 +97,14 @@ assert( baz.properties.o === undefined )
 
 ##### Методы класса
 
-### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L57)(properties)
+### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L5)(properties)
 Конструктор схемы. Возвращает дочерний конструктор, расширенный переданными определениями **properties**.
 
  
 
 ##### Методы экземпляра
 
-### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L2)(value)
+### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L81)(value)
 Конструктор экземпляра. Инстанцирует экземпляр схемы, объявляет свойства, и заполняет их переданными значениями **values**.
 
  
@@ -111,7 +134,7 @@ descriptor= Schema.Property(
 
  
 
-##### Параметры свойств 
+##### Параметры свойства схемы
 * **require**, или **required** — указывает на то, что свойство обязательно должно иметь некое значение. Простейший валидатор.
 * **type** — указывает конструктор, экземпляром которого должно являться значение свойства. Если значение не соответствует указанному типу, свойство пытается инстанцировать значение нужного типа с помощью имеющегося конструктора. Если не получается — бросает исключение ```BadValueError```.
 * **validate** — функция проверки значения. Может менять устанавливаемое значение. Для неподходящего бросает исключение ```BadValueError```.
