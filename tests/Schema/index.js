@@ -325,5 +325,81 @@ module.exports= function (Schema) {
                 })
             })
         })
+        describe('Validation.', function () {
+            describe('Values for required properties should be defined.', function () {
+                var Foo= Schema({
+                    f: Schema.Property({
+                        require:true
+                    })
+                })
+                describe('Instance with valid values:', function () {
+                    var foo= new Foo({
+                        f: 'foo'
+                    })
+                    it('should be constructed', function () {
+                        assert.instanceOf(
+                            foo, Foo
+                        )
+                        assert.equal(
+                            foo.f, 'foo'
+                        )
+                    })
+                })
+                describe('Instance with invalid values:', function () {
+                    it('should throw error', function (done) {
+                        try {
+                            var err= null
+                            var foo= new Foo({
+                                f: null
+                            })
+                        } catch (e) {
+                            err= e
+                        } finally {
+                            assert.isUndefined(
+                                foo
+                            )
+                            assert.instanceOf(
+                                err, Schema.Property.BadValue
+                            )
+                            done()
+                        }
+                    })
+                })
+            })
+            describe('Values for required properties with defaults should be defined or empty.', function () {
+                var Foo= Schema({
+                    f: Schema.Property({
+                        require:true, default:'foo'
+                    })
+                })
+                describe('Instance without values:', function () {
+                    var foo= new Foo()
+                    it('should be constructed', function () {
+                        assert.instanceOf(
+                            foo, Foo
+                        )
+                        assert.equal(
+                            foo.f, 'foo'
+                        )
+                    })
+                    it('should throw error when setter obtain empty value', function (done) {
+                        try {
+                            var err= null
+                            foo.f= null
+                        } catch (e) {
+                            err= e
+                        } finally {
+                            assert.equal(
+                                foo.f, 'foo'
+                            )
+                            assert.instanceOf(
+                                err, Schema.Property.BadValue
+                            )
+                            done()
+                        }
+                    })
+                })
+            })
+        })
     }
 }
