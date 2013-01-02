@@ -400,6 +400,30 @@ module.exports= function (Schema) {
                     })
                 })
             })
+            describe('Values for typed properties should be right typed.', function () {
+                it('should call type constructor', function (done) {
+                    var T= function (value, n) {
+                        if (!n) done()
+                    }
+                    var Foo= Schema({
+                        f: Schema.Property({
+                            require:true, type:T
+                        })
+                    })
+                    var foo= new Foo({
+                        f: new T('foo-o', true)
+                    })
+                    assert.instanceOf(
+                        foo.f, T
+                    )
+                    var foo= new Foo({
+                        f: 'foo-o'
+                    })
+                    assert.instanceOf(
+                        foo.f, T
+                    )
+                })
+            })
         })
     }
 }
