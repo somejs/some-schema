@@ -1,5 +1,6 @@
-## Модель свойства схемы
+## Свойство схемы
 # [Some.js](http://somejs.org/schema) / [Schema](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema) / Property
+
 
 Может быть сконструирована из js-дескриптора:
 ```javascript
@@ -20,7 +21,8 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 
  
 
-# [Schema.Property](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property)
+# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/Property)
+Свойство схемы. Модель дескриптора свойства js-объекта.
 
 ##### Параметры определения свойства
 
@@ -64,10 +66,7 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 
  
 
+##### Экспортирует
+
 # [Schema.Property.BadValue](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L189)
 Ошибка валидации значения.
-
- 
-
-## Лицензия
-MIT

@@ -112,7 +112,7 @@ assert(
  
 
 # [Schema](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema)
-Модель js-объекта.
+Схема. Модель js-объекта.
 
 ### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L5) (parent, properties)
 Расширяет переданный конструктор **parent** определениями **properties**. Если родительский конструктор не передан, расширяет конструктор схемы. Возвращает конструктор потомка.
@@ -122,8 +122,12 @@ assert(
 
  
 
-# [Schema.Property](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property)
-Модель свойства, js-совместимый дескриптор. Может быть сконструирована из js-дескриптора:
+##### Экспортирует
+
+# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/Property)
+Свойство схемы. Модель дескриптора свойства js-объекта.
+
+Может быть сконструирована из js-дескриптора:
 ```javascript
 descriptor= new Schema.Property(
     Object.getOwnPropertyDescriptor(obj, 'foo')
@@ -177,6 +181,8 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 Проверяет значение **value** на соответствие требованиям свойства.
 
  
+
+##### Экспортирует
 
 # [Schema.Property.BadValue](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L189)
 Ошибка валидации значения.
