@@ -44,14 +44,9 @@ module.exports= function (Schema) {
         it('should be a class', assertClass(
             Constructor
         ))
-        describe('#Property', function () {
-            it('should be defined', assertProperty(
-                Constructor.Property
-            ))
-            it('should be a class', assertClass(
-                Constructor.Property
-            ))
-        })
+        describe('#Property', describeConstructorProperty(
+            Constructor.Property
+        ))
         describe('#properties', function () {
             it('should be defined', assertProperty(
                 Constructor.properties
@@ -61,6 +56,10 @@ module.exports= function (Schema) {
             Constructor, new Constructor
         ))
     }}
+
+    var describeConstructorProperty= require(
+        './Property'
+    )
 
     return function () {
         describe('Schema — конструктор схемы', describeConstructor(
