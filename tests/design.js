@@ -175,6 +175,7 @@ try {
 
 var Sch= Schema({
     type:'sch',
+    test: Schema.Property({ require:true }),
     children: Schema({
         type:'child0',
         children: Schema({
@@ -185,7 +186,9 @@ var Sch= Schema({
         })
     })
 })
-var sch= new Sch
+var sch= new Sch({
+    test: true
+})
 console.log(
     sch instanceof Schema,
     sch instanceof Schema.Property,
@@ -209,4 +212,22 @@ console.log(
     sch.children.type == 'child-0',
     sch.children.children.type == 'child-1',
     sch.children.children.children.type == 'child-2'
+)
+console.log(
+    sch.validate({
+        type:'child-00',
+        children: {
+            type:'child-11',
+            children: {
+                type:'child-22',
+                children: {
+
+                }
+            }
+        }
+    }),
+    !sch.validate({
+        type:'child-00',
+        test: false,
+    })
 )
