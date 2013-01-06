@@ -31,13 +31,6 @@ module.exports= function (Schema) {
                 )
             })
         })
-        describe('#properties', function () {
-            it('should be an object', function () {
-                assert.isObject(
-                    instance.properties
-                )
-            })
-        })
     }}
 
     var describeConstructor= function (Constructor) { return function () {
@@ -66,7 +59,8 @@ module.exports= function (Schema) {
             Schema
         ))
         describe('Foo= Schema()', function () {
-            var Foo= Schema({ type: 'Schema/Foo',
+            var Foo= Schema({
+                type: Schema.Property({ value: 'Schema/Foo' }),
                 f: Schema.Property({ default: 'foo' }),
             })
             describe('should be Schema constructor', describeConstructor(
@@ -76,8 +70,11 @@ module.exports= function (Schema) {
                 describe('#properties', function () {
                     describe('#type', function () {
                         it('should be defined', function () {
+                            assert.instanceOf(
+                                Foo.properties.type, Schema.Property
+                            )
                             assert.equal(
-                                Foo.properties.type, 'Schema/Foo'
+                                Foo.properties.type.value, 'Schema/Foo'
                             )
                         })
                     })
@@ -98,25 +95,6 @@ module.exports= function (Schema) {
                 describe('should be an instance of Foo', describeConstructorInstance(
                     Foo, foo
                 ))
-                describe('#properties', function () {
-                    describe('#type', function () {
-                        it('should be undefined', function () {
-                            assert.isUndefined(
-                                foo.properties.type
-                            )
-                        })
-                    })
-                    describe('#f', function () {
-                        it('should be defined', function () {
-                            assert.instanceOf(
-                                foo.properties.f, Schema.Property
-                            )
-                            assert.equal(
-                                foo.properties.f.default, 'foo'
-                            )
-                        })
-                    })
-                })
                 describe('#type', function () {
                     it('should be defined', function () {
                         assert.equal(
@@ -133,7 +111,8 @@ module.exports= function (Schema) {
                 })
             })
             describe('Bar= Foo()', function () {
-                var Bar= Foo({ type: 'Schema/Foo/Bar',
+                var Bar= Foo({
+                    type: Schema.Property({ value: 'Schema/Foo/Bar' }),
                     f: Schema.Property({ default: 'foo-o' }),
                     b: Schema.Property({ default: 'bar' }),
                 })
@@ -144,8 +123,11 @@ module.exports= function (Schema) {
                     describe('#properties', function () {
                         describe('#type', function () {
                             it('should be defined', function () {
+                                assert.instanceOf(
+                                    Bar.properties.type, Schema.Property
+                                )
                                 assert.equal(
-                                    Bar.properties.type, 'Schema/Foo/Bar'
+                                    Bar.properties.type.value, 'Schema/Foo/Bar'
                                 )
                             })
                         })
@@ -176,35 +158,6 @@ module.exports= function (Schema) {
                     describe('should be an instance of Bar', describeConstructorInstance(
                         Bar, bar
                     ))
-                    describe('#properties', function () {
-                        describe('#type', function () {
-                            it('should be undefined', function () {
-                                assert.isUndefined(
-                                    bar.properties.type
-                                )
-                            })
-                        })
-                        describe('#f', function () {
-                            it('should be defined', function () {
-                                assert.instanceOf(
-                                    bar.properties.f, Schema.Property
-                                )
-                                assert.equal(
-                                    bar.properties.f.default, 'foo-o'
-                                )
-                            })
-                        })
-                        describe('#b', function () {
-                            it('should be defined', function () {
-                                assert.instanceOf(
-                                    bar.properties.b, Schema.Property
-                                )
-                                assert.equal(
-                                    bar.properties.b.default, 'bar'
-                                )
-                            })
-                        })
-                    })
                     describe('#type', function () {
                         it('should be defined', function () {
                             assert.equal(
@@ -228,7 +181,8 @@ module.exports= function (Schema) {
                     })
                 })
                 describe('Baz= Bar()', function () {
-                    var Baz= Bar({ type: 'Schema/Foo/Bar/Baz',
+                    var Baz= Bar({
+                        type: Schema.Property({ value: 'Schema/Foo/Bar/Baz' }),
                         f: Schema.Property({ default: 'foo-oo-o' }),
                         b: Schema.Property({ default: 'baz' }),
                     })
@@ -239,8 +193,11 @@ module.exports= function (Schema) {
                         describe('#properties', function () {
                             describe('#type', function () {
                                 it('should be defined', function () {
+                                    assert.instanceOf(
+                                        Baz.properties.type, Schema.Property
+                                    )
                                     assert.equal(
-                                        Baz.properties.type, 'Schema/Foo/Bar/Baz'
+                                        Baz.properties.type.value, 'Schema/Foo/Bar/Baz'
                                     )
                                 })
                             })
@@ -271,35 +228,6 @@ module.exports= function (Schema) {
                         describe('should be an instance of Baz', describeConstructorInstance(
                             Baz, baz
                         ))
-                        describe('#properties', function () {
-                            describe('#type', function () {
-                                it('should be undefined', function () {
-                                    assert.isUndefined(
-                                        baz.properties.type
-                                    )
-                                })
-                            })
-                            describe('#f', function () {
-                                it('should be defined', function () {
-                                    assert.instanceOf(
-                                        baz.properties.f, Schema.Property
-                                    )
-                                    assert.equal(
-                                        baz.properties.f.default, 'foo-oo-o'
-                                    )
-                                })
-                            })
-                            describe('#b', function () {
-                                it('should be defined', function () {
-                                    assert.instanceOf(
-                                        baz.properties.b, Schema.Property
-                                    )
-                                    assert.equal(
-                                        baz.properties.b.default, 'baz'
-                                    )
-                                })
-                            })
-                        })
                         describe('#type', function () {
                             it('should be defined', function () {
                                 assert.equal(

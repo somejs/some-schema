@@ -1,5 +1,22 @@
 var Schema= require('../lib/Schema')
 
+
+
+var Scm= Schema({
+    p1: Schema.Property(),
+    p2: Object,
+    p3: Array,
+    p4: String
+})
+var s= new Scm
+console.log(
+    s.p2 instanceof Object,
+    s.p3 instanceof Array,
+    s.p4 instanceof String, s.p4 instanceof Object
+)
+
+
+
 console.log(
     Schema instanceof Function,
     Schema.prototype === Schema.prototype.constructor.prototype
@@ -8,40 +25,35 @@ console.log(
 
 
 var Foo= Schema({
-        lol: Schema.Property({ default:'lol' }),
-        f:'foo'
+        f: Schema.Property({ default:'foo' }),
     })
-  , foo= new Foo({
-        lol: 'ololo',
-        f:'Foo'
-    })
+  , foo= new Foo()
 
 console.log(
     Foo instanceof Function,
     foo instanceof Foo, foo instanceof Schema,
-    foo.lol == 'ololo', foo.f == 'Foo'
+    foo.f == 'foo'
 )
 
 
 
 var Bar= Foo({
-        lol: Schema.Property({ default:'ololo' }),
-        f:'foo-oo',
-        b:'bar'
+        f: Schema.Property({ default:'foo-oo' }),
+        b: Schema.Property({ default:'bar' }),
     })
   , bar= new Bar()
 
 console.log(
     Bar instanceof Function,
     bar instanceof Bar, bar instanceof Foo, bar instanceof Schema,
-    bar.f == 'foo-oo', bar.b == 'bar', bar.lol == 'ololo'
+    bar.f == 'foo-oo', bar.b == 'bar'
 )
 
 
 
 var Baz= Bar({
-        f:'foo-oo-o',
-        b:'baz'
+        f: Schema.Property({ default:'foo-oo-o' }),
+        b: Schema.Property({ default:'baz' }),
     })
   , baz= new Baz()
 
@@ -72,7 +84,7 @@ var Foo= Schema({
 var foo= new Foo()
 
 console.log(
-    foo instanceof Foo, foo instanceof Schema, !!foo.properties,
+    foo instanceof Foo, foo instanceof Schema,
     foo.f == 'foo'
 )
 
@@ -93,7 +105,7 @@ var Bar= Foo({
 var bar= new Bar()
 
 console.log(
-    bar instanceof Bar, bar instanceof Foo, bar instanceof Schema, !!bar.properties,
+    bar instanceof Bar, bar instanceof Foo, bar instanceof Schema,
     bar.f === 'foo', bar.b === 'bar'
 )
 
@@ -106,7 +118,7 @@ var Baz= Bar({
 var baz= new Baz()
 
 console.log(
-    baz instanceof Baz, baz instanceof Foo, bar instanceof Schema, !!baz.properties,
+    baz instanceof Baz, baz instanceof Foo, bar instanceof Schema,
     baz.f === 'foo', baz.b === 'baz'
 )
 
@@ -117,9 +129,7 @@ console.info('\n\nКлассический способ определения �
 var Model= function() {
 
     this.key= Schema.Property({ verbose:'путь к данным модели', require:true })
-
-    this.loaded= false
-    this.saved= true
+    this.loaded= Schema.Property({ default:false })
 
     Schema.apply(this, arguments)
 }
@@ -150,12 +160,11 @@ try {
 var model= new Model({
     key:'path/to/data',
     loaded:true,
-
     other:'something'
 })
 
 console.log(
-    model instanceof Model, model instanceof Schema, !!model.properties,
+    model instanceof Model, model instanceof Schema,
     model.key == 'path/to/data', model.loaded == true, model.other == 'something'
 )
 
@@ -174,14 +183,14 @@ try {
 
 
 var Sch= Schema({
-    type:'sch',
+    type: Schema.Property({ default:'sch' }),
     test: Schema.Property({ require:true }),
     children: Schema({
-        type:'child0',
+        type: Schema.Property({ default:'child0' }),
         children: Schema({
-            type:'child1',
+            type: Schema.Property({ default:'child1' }),
             children: Schema({
-                type:'child2'
+                type: Schema.Property({ default:'child2' })
             })
         })
     })
@@ -231,3 +240,58 @@ console.log(
         test: false,
     })
 )
+
+var Phone= Schema({
+    title: Schema.Property(),
+    number: Schema.Property({
+        required:true
+    }),
+})
+
+var PhonesContainer= function(phones) {
+    this.phones= []
+    if (phones instanceof Array) {
+        phones.map(function (phone) {
+            this.push(phone)
+        }, this)
+    }
+}
+PhonesContainer.prototype.map= function () {
+    this.phones.map.apply(this.phones, arguments)
+    return this
+}
+PhonesContainer.prototype.push= function (data) {
+    this.phones.push.call(this.phones,
+        (data instanceof Phone) ? data : new Phone(data)
+    )
+    return this
+}
+
+var Contact= Schema({
+    name: Schema.Property({
+        type:String, required:true, default:'anonymous'
+    }),
+    phones: Schema.Property({
+        type:PhonesContainer, // default:new PhonesContainer
+    }),
+})
+
+var contact= new Contact({
+    name:'Username',
+    phones: [
+        { title:'мобильный телефон', number:'31-33-73' },
+        { title:'рабочий телефон', number:'+7 911 2 31-33-73' },
+    ]
+})
+
+console.log(
+    contact instanceof Contact, contact instanceof Schema
+)
+console.log(
+    contact.phones instanceof PhonesContainer
+)
+contact.phones.map(function (phone) {
+    console.log(
+        phone instanceof Phone
+    )
+})
