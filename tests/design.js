@@ -295,3 +295,19 @@ contact.phones.map(function (phone) {
         phone instanceof Phone
     )
 })
+
+
+
+var Scm1= Schema({
+    p1:Array
+})
+var Scm2= Scm1({
+    p2:Array
+})
+var s1= new Scm1
+  , s2= new Scm1
+var s3= new Scm2
+console.log(
+    s1.p1 !== s2.p1,
+    s3.p1 !== s1.p1
+)
