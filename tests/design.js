@@ -311,3 +311,17 @@ console.log(
     s1.p1 !== s2.p1,
     s3.p1 !== s1.p1
 )
+
+
+var S1= Schema({
+    s1: Schema.Property()
+})
+S1.Classmethod= function () {}
+
+var S11= S1({
+    s11: Schema.Property()
+})
+
+console.log(
+    S11.Classmethod === S1.Classmethod
+)
