@@ -313,6 +313,7 @@ console.log(
 )
 
 
+
 var S1= Schema({
     s1: Schema.Property()
 })
@@ -325,3 +326,12 @@ var S11= S1({
 console.log(
     S11.Classmethod === S1.Classmethod
 )
+
+
+
+var S2= Schema()
+S2.inherit= function (Extended, Parent) {
+    console.log(
+        Parent === S2
+    )
+}
