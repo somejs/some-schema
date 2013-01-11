@@ -1,5 +1,6 @@
-## Язык декларативного описания данных [![Build Status](https://secure.travis-ci.org/freaking-awesome/some-schema.png)](http://travis-ci.org/freaking-awesome/some-schema)
-# [some.js](http://somejs.org/schema) / schema
+# [some.js](http://somejs.org/schema) / schema [![Build Status](https://secure.travis-ci.org/freaking-awesome/some-schema.png)](http://travis-ci.org/freaking-awesome/some-schema)
+
+Язык декларативного описания данных 
 
 Используется для моделирования сложных структур данных в виде вложенных схем. Поддерживает наследование и переопределение свойств. Реализует возможность валидации значений.
 
@@ -107,7 +108,7 @@ assert(
 
  
 
-## API и [документация](http://api.somejs.org)
+## API и [документация](http://api.somejs.org/schema)
 
  
 
