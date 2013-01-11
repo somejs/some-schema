@@ -1,11 +1,10 @@
 {
   "name": "some-schema",
-  "version": "0.2.7",
-  "license": "MIT",
+  "version": "0.2.9",
   "description": "some schema dsl",
   "keywords": [
     "some", "schema", "domain", "specific", "language",
-    "data", "model", "validate"
+    "data", "object", "validate"
   ],
   "repository": {
     "type": "git",
@@ -27,5 +26,6 @@
   },
   "engines": {
     "node": ">=0.6"
-  }
+  },
+  "license": "MIT"
 }

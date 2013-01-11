@@ -335,3 +335,36 @@ S2.inherit= function (Extended, Parent) {
         Parent === S2
     )
 }
+
+var S= Schema()
+S.prototype.init= function () {
+    console.log(
+        this.constructor === S,
+        this.constructor.Property === Schema.Property
+    )
+
+}
+new S
+
+
+var T1= function (value) {
+    console.log(value === 1)
+}
+var T2= function (value) {
+    console.log(value === 2)
+}
+var S1= Schema({
+    p1: Schema.Property({
+        type: T1,
+        value: 1
+    }),
+    p2: Schema.Property({
+        type: T2,
+        default: 2
+    }),
+})
+var s1= new S1
+console.log(
+    s1.p1 instanceof T1,
+    s1.p2 instanceof T2
+)
