@@ -217,20 +217,32 @@ var S1= Schema({
     }),
     b2: Schema.Property({
         type:Boolean, value:true
-    })
+    }),
+    s1: Schema.Property({
+        type:String, value:'str'
+    }),
+    n1: Schema.Property({
+        type:Number, value:1
+    }),
 })
 
 var s11= new S1
 console.log(
-    s11.b1 === true, s11.b2 === true
+    s11.b1 === true, s11.b2 === true,
+    s11.s1 === 'str',
+    s11.n1 === 1
 )
 
 var s12= new S1({
     b1:false,
-    b2:false 
+    b2:false,
+    s1:'s',
+    n1:2,
 })
 console.log(
-    s12.b2 === false, s12.b2 === false
+    s12.b2 === false, s12.b2 === false,
+    s12.s1 === 's',
+    s12.n1 === 2
 )
 
 // В качестве типа можно указать схему
@@ -239,7 +251,9 @@ var S2= Schema({
     s1: Schema.Property({
         type:S1, value:{
             b1: false,
-            b2: false
+            b2: false,
+            s1: 'S2.s1',
+            n1: 21,
         }
     }),
 })
@@ -247,18 +261,24 @@ var S2= Schema({
 var s21= new S2
 console.log(
     s21.s1 instanceof S1,
-    s21.s1.b1 === false, s21.s1.b2 === false
+    s21.s1.b1 === false, s21.s1.b2 === false,
+    s21.s1.s1 === 'S2.s1',
+    s21.s1.s1 === 21
 )
 
 var s22= new S2({
     s1: {
         b1: false,
-        b2: true
+        b2: true,
+        s1: 'S2.s1.i',
+        n1: 021,
     }
 })
 console.log(
     s22.s1 instanceof S1,
-    s22.s1.b1 === false, s22.s1.b2 === true
+    s22.s1.b1 === false, s22.s1.b2 === true,
+    s22.s1.s1 === 'S2.s1.i',
+    s22.s1.n1 === 021
 )
 
 // Можно объявить дерево схем
@@ -267,14 +287,18 @@ var S3= Schema({
     s1: Schema.Property({
         type:S1, value:{
             b1: true,
-            b2: false
+            b2: false,
+            s1: 'S3.s1 → S1.s1',
+            n1: 3111,
         }
     }),
     s2: Schema.Property({
         type:S2, value:{
             s1:{
                 b1: false,
-                b2: true
+                b2: true,
+                s1: 'S3.s2 → S2.s1',
+                n1: 3221,
             }
         }
     })
@@ -283,30 +307,42 @@ var S3= Schema({
 var s31= new S3
 console.log(
     s31.s1 instanceof S1,
-    s31.s1.b1 === true, s31.s1.b2 === false
+    s31.s1.b1 === true, s31.s1.b2 === false,
+    s31.s1.s1 === 'S3.s1 → S1.s1',
+    s31.s1.n1 === 3111
 )
 console.log(
     s31.s2 instanceof S2, s31.s2.s1 instanceof S1,
-    s31.s2.s1.b1 === false, s31.s2.s1.b2 === true
+    s31.s2.s1.b1 === false, s31.s2.s1.b2 === true,
+    s31.s2.s1.s1 === 'S3.s2 → S2.s1',
+    s31.s2.s1.s1 === 3221
 )
 
-var s31= new S3({
+var s32= new S3({
     s1: {
         b1: false,
+        s1: '→ → → S3.s1 → S1.s1',
+        n1: 03111,
     },
     s2:{
         s1:{
-            b1: true
+            b1: true,
+            s1: '→ → → S3.s2 → S2.s1',
+            n1: 1113221,
         }
     }
 })
 console.log(
-    s31.s1 instanceof S1,
-    s31.s1.b1 === false, s31.s1.b2 === false, 'мерджить переданное значения с объявленным'
+    s32.s1 instanceof S1,
+    s32.s1.b1 === false, s32.s1.b2 === false, 'мерджить переданное значения с объявленным',
+    s32.s1.s1 === '→ → → S3.s1 → S1.s1',
+    s32.s1.n1 === 03111
 )
 console.log(
-    s31.s2 instanceof S2, s31.s2.s1 instanceof S1,
-    s31.s2.s1.b1 === true, s31.s2.s1.b2 === true
+    s32.s2 instanceof S2, s32.s2.s1 instanceof S1,
+    s32.s2.s1.b1 === true, s32.s2.s1.b2 === true,
+    s32.s2.s1.s1 === '→ → → S3.s2 → S2.s1',
+    s32.s2.s1.s1 === 1113221
 )
 
 // Можно объявить тип коротким способом
@@ -315,18 +351,26 @@ var S4= Schema({
     b1: Schema.Property({
         type:Boolean
     }),
-    b2: Boolean
+    b2: Boolean,
+    s1: Schema.Property({
+        type:String
+    }),
+    s2: String,
 })
 
 console.log(
     'Boolean' === S4.properties.b1.type.name,
-    'Boolean' === S4.properties.b2.type.name
+    'Boolean' === S4.properties.b2.type.name,
+    'String' === S4.properties.s1.type.name,
+    'String' === S4.properties.s2.type.name
 )
 
 var s41= new S4
 console.log(
     s41.b1 === false, (s41.b1= true) && s41.b1 === true,
-    s41.b2 === false, (s41.b2= true) && s41.b2 === true
+    s41.b2 === false, (s41.b2= true) && s41.b2 === true,
+    s41.s1 === '', (s41.s1= 'str') && s41.s1 === 'str',
+    s41.s2 === '', (s41.s2= 'str') && s41.s2 === 'str'
 )
 
 // Нельзя установить значение неподходящего типа
@@ -364,9 +408,42 @@ console.log(
     3 === errors.length
 )
 
+try {
+    s41.s1= undefined
+} catch (e) {
+    if (e instanceof Schema.Property.BadValue) {
+        errors.push(e)
+    }
+}
 console.log(
-    s41.constructor.properties.b1.validate(true),
-    s41.constructor.properties.b1.validate(Boolean(true))
+    4 === errors.length
+)
+try {
+    s41.s1= null
+} catch (e) {
+    if (e instanceof Schema.Property.BadValue) {
+        errors.push(e)
+    }
+}
+console.log(
+    5 === errors.length
+)
+try {
+    s41.s1= false
+} catch (e) {
+    if (e instanceof Schema.Property.BadValue) {
+        errors.push(e)
+    }
+}
+console.log(
+    6 === errors.length
+)
+
+console.log(
+    !!s41.constructor.properties.b1.validate(true),
+    !!s41.constructor.properties.b1.validate(Boolean(true)),
+    'string' === typeof s41.constructor.properties.s1.validate(''),
+    !!s41.constructor.properties.s1.validate(String(true))
 )
 
 // В качестве типа можно указать конструктор
