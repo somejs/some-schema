@@ -155,8 +155,6 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 
 **property.value** — значение свойства.
 
-##### Нативные параметры свойства
-
 **property.enumerable** — свойство должно быть видимо. По умолчанию — ```false```.
 
 **property.configurable** — определение свойства можно изменить. По умолчанию — ```false```.
