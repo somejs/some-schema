@@ -2,21 +2,6 @@ var Schema= require('../lib/Schema')
 
 
 
-var Scm= Schema({
-    p1: Schema.Property(),
-    p2: Object,
-    p3: Array,
-    p4: String
-})
-var s= new Scm
-console.log(
-    s.p2 instanceof Object,
-    s.p3 instanceof Array,
-    s.p4 instanceof String, s.p4 instanceof Object
-)
-
-
-
 console.log(
     Schema instanceof Function,
     Schema.prototype === Schema.prototype.constructor.prototype
@@ -25,7 +10,7 @@ console.log(
 
 
 var Foo= Schema({
-        f: Schema.Property({ default:'foo' }),
+        f: Schema.Property({ value:'foo' }),
     })
   , foo= new Foo()
 
@@ -38,8 +23,8 @@ console.log(
 
 
 var Bar= Foo({
-        f: Schema.Property({ default:'foo-oo' }),
-        b: Schema.Property({ default:'bar' }),
+        f: Schema.Property({ value:'foo-oo' }),
+        b: Schema.Property({ value:'bar' }),
     })
   , bar= new Bar()
 
@@ -52,8 +37,8 @@ console.log(
 
 
 var Baz= Bar({
-        f: Schema.Property({ default:'foo-oo-o' }),
-        b: Schema.Property({ default:'baz' }),
+        f: Schema.Property({ value:'foo-oo-o' }),
+        b: Schema.Property({ value:'baz' }),
     })
   , baz= new Baz()
 
@@ -78,7 +63,7 @@ console.log(
 
 
 var Foo= Schema({
-    f: Schema.Property({default:'foo'}),
+    f: Schema.Property({value:'foo'}),
 })
 
 var foo= new Foo()
@@ -99,7 +84,7 @@ console.log(
 foo.f= 'foo'
 
 var Bar= Foo({
-    b: Schema.Property({default:'bar'}),
+    b: Schema.Property({value:'bar'}),
 })
 
 var bar= new Bar()
@@ -112,7 +97,7 @@ console.log(
 
 
 var Baz= Bar({
-    b: Schema.Property({default:'baz'}),
+    b: Schema.Property({value:'baz'}),
 })
 
 var baz= new Baz()
@@ -124,73 +109,15 @@ console.log(
 
 
 
-console.info('\n\nКлассический способ определения класса\n')
-
-var Model= function() {
-
-    this.key= Schema.Property({ verbose:'путь к данным модели', require:true })
-    this.loaded= Schema.Property({ default:false })
-
-    Schema.apply(this, arguments)
-}
-Model.prototype= Schema.prototype
-
-console.log(
-    Model instanceof Function
-)
-
-
-
-var model= null
-
-try {
-    model= new Model()
-} catch (e) {
-    console.log(
-        e instanceof Schema.Property.BadValueError
-    )
-} finally {
-    console.log(
-        model === null
-    )
-}
-
-
-
-var model= new Model({
-    key:'path/to/data',
-    loaded:true,
-    other:'something'
-})
-
-console.log(
-    model instanceof Model, model instanceof Schema,
-    model.key == 'path/to/data', model.loaded == true, model.other == 'something'
-)
-
-try {
-    model.key= false
-} catch (e) {
-    console.log(
-        e instanceof Schema.Property.BadValueError
-    )
-} finally {
-    console.log(
-        model.key !== false, model.key == 'path/to/data'
-    )
-}
-
-
-
 var Sch= Schema({
-    type: Schema.Property({ default:'sch' }),
+    type: Schema.Property({ value:'sch' }),
     test: Schema.Property({ require:true }),
     children: Schema({
-        type: Schema.Property({ default:'child0' }),
+        type: Schema.Property({ value:'child0' }),
         children: Schema({
-            type: Schema.Property({ default:'child1' }),
+            type: Schema.Property({ value:'child1' }),
             children: Schema({
-                type: Schema.Property({ default:'child2' })
+                type: Schema.Property({ value:'child2' })
             })
         })
     })
@@ -222,24 +149,245 @@ console.log(
     sch.children.children.type == 'child-1',
     sch.children.children.children.type == 'child-2'
 )
-console.log(
-    sch.validate({
-        type:'child-00',
-        children: {
-            type:'child-11',
-            children: {
-                type:'child-22',
-                children: {
 
-                }
-            }
+
+
+//var Phone= Schema({
+//    title: Schema.Property(),
+//    number: Schema.Property({
+//        required:true
+//    }),
+//})
+//
+//var PhonesContainer= function(phones) {
+//    this.phones= []
+//    if (phones instanceof Array) {
+//        phones.map(function (phone) {
+//            this.push(phone)
+//        }, this)
+//    }
+//}
+//PhonesContainer.prototype.map= function () {
+//    this.phones.map.apply(this.phones, arguments)
+//    return this
+//}
+//PhonesContainer.prototype.push= function (data) {
+//    this.phones.push.call(this.phones,
+//        (data instanceof Phone) ? data : new Phone(data)
+//    )
+//    return this
+//}
+//
+//var Contact= Schema({
+//    name: Schema.Property({ required:true,
+//        value:'anonymous'
+//    }),
+//    phones: Schema.Property({
+//        type:PhonesContainer, // default:new PhonesContainer
+//    }),
+//})
+//
+//var contact= new Contact({
+//    name:'Username',
+//    phones: [
+//        { title:'мобильный телефон', number:'31-33-73' },
+//        { title:'рабочий телефон', number:'+7 911 2 31-33-73' },
+//    ]
+//})
+//
+//console.log(
+//    contact instanceof Contact, contact instanceof Schema
+//)
+//console.log(
+//    contact.phones instanceof PhonesContainer
+//)
+//contact.phones.map(function (phone) {
+//    console.log(
+//        phone instanceof Phone
+//    )
+//})
+
+
+
+// Свойству можно указать тип
+
+var S1= Schema({
+    b1: Schema.Property({
+        value:true
+    }),
+    b2: Schema.Property({
+        type:Boolean, value:true
+    })
+})
+
+var s11= new S1
+console.log(
+    s11.b1 === true, s11.b2 === true
+)
+
+var s12= new S1({
+    b1:false,
+    b2:false 
+})
+console.log(
+    s12.b2 === false, s12.b2 === false
+)
+
+// В качестве типа можно указать схему
+
+var S2= Schema({
+    s1: Schema.Property({
+        type:S1, value:{
+            b1: false,
+            b2: false
         }
     }),
-    !sch.validate({
-        type:'child-00',
-        test: false,
-    })
+})
+
+var s21= new S2
+console.log(
+    s21.s1 instanceof S1,
+    s21.s1.b1 === false, s21.s1.b2 === false
 )
+
+var s22= new S2({
+    s1: {
+        b1: false,
+        b2: true
+    }
+})
+console.log(
+    s22.s1 instanceof S1,
+    s22.s1.b1 === false, s22.s1.b2 === true
+)
+
+// Можно объявить дерево схем
+
+var S3= Schema({
+    s1: Schema.Property({
+        type:S1, value:{
+            b1: true,
+            b2: false
+        }
+    }),
+    s2: Schema.Property({
+        type:S2, value:{
+            s1:{
+                b1: false,
+                b2: true
+            }
+        }
+    })
+})
+
+var s31= new S3
+console.log(
+    s31.s1 instanceof S1,
+    s31.s1.b1 === true, s31.s1.b2 === false
+)
+console.log(
+    s31.s2 instanceof S2, s31.s2.s1 instanceof S1,
+    s31.s2.s1.b1 === false, s31.s2.s1.b2 === true
+)
+
+var s31= new S3({
+    s1: {
+        b1: false,
+    },
+    s2:{
+        s1:{
+            b1: true
+        }
+    }
+})
+console.log(
+    s31.s1 instanceof S1,
+    s31.s1.b1 === false, s31.s1.b2 === false, 'мерджить переданное значения с объявленным'
+)
+console.log(
+    s31.s2 instanceof S2, s31.s2.s1 instanceof S1,
+    s31.s2.s1.b1 === true, s31.s2.s1.b2 === true
+)
+
+// Можно объявить тип коротким способом
+
+var S4= Schema({
+    b1: Schema.Property({
+        type:Boolean
+    }),
+    b2: Boolean
+})
+
+console.log(
+    'Boolean' === S4.properties.b1.type.name,
+    'Boolean' === S4.properties.b2.type.name
+)
+
+var s41= new S4
+console.log(
+    s41.b1 === false, (s41.b1= true) && s41.b1 === true,
+    s41.b2 === false, (s41.b2= true) && s41.b2 === true
+)
+
+// Нельзя установить значение неподходящего типа
+
+var errors= []
+try {
+    s41.b1= undefined
+} catch (e) {
+    if (e instanceof Schema.Property.BadValue) {
+        errors.push(e)
+    }
+}
+console.log(
+    1 === errors.length
+)
+try {
+    s41.b1= null
+    console.log(s41.b1)
+} catch (e) {
+    if (e instanceof Schema.Property.BadValue) {
+        errors.push(e)
+    }
+}
+console.log(
+    2 === errors.length
+)
+try {
+    s41.b1= ''
+} catch (e) {
+    if (e instanceof Schema.Property.BadValue) {
+        errors.push(e)
+    }
+}
+console.log(
+    3 === errors.length
+)
+
+console.log(
+    s41.constructor.properties.b1.validate(true),
+    s41.constructor.properties.b1.validate(Boolean(true))
+)
+
+// В качестве типа можно указать конструктор
+
+var T= function () {
+
+}
+
+var S5= Schema({
+    p1: Schema.Property({
+        type:T
+    })
+})
+
+var s51= new S5
+console.log(
+    s51.p1 instanceof T,
+    s51.p1= new T && s51.p1 instanceof T
+)
+
+
 
 var Phone= Schema({
     title: Schema.Property(),
@@ -247,7 +395,6 @@ var Phone= Schema({
         required:true
     }),
 })
-
 var PhonesContainer= function(phones) {
     this.phones= []
     if (phones instanceof Array) {
@@ -266,16 +413,14 @@ PhonesContainer.prototype.push= function (data) {
     )
     return this
 }
-
 var Contact= Schema({
-    name: Schema.Property({
-        type:String, required:true, default:'anonymous'
+    name: Schema.Property({ required:true,
+        value:'anonymous'
     }),
     phones: Schema.Property({
         type:PhonesContainer, // default:new PhonesContainer
     }),
 })
-
 var contact= new Contact({
     name:'Username',
     phones: [
@@ -283,88 +428,71 @@ var contact= new Contact({
         { title:'рабочий телефон', number:'+7 911 2 31-33-73' },
     ]
 })
-
 console.log(
     contact instanceof Contact, contact instanceof Schema
 )
 console.log(
-    contact.phones instanceof PhonesContainer
+    'Username' === contact.name
 )
-contact.phones.map(function (phone) {
-    console.log(
-        phone instanceof Phone
-    )
-})
-
-
-
-var Scm1= Schema({
-    p1:Array
-})
-var Scm2= Scm1({
-    p2:Array
-})
-var s1= new Scm1
-  , s2= new Scm1
-var s3= new Scm2
 console.log(
-    s1.p1 !== s2.p1,
-    s3.p1 !== s1.p1
+    contact.phones instanceof PhonesContainer,
+    contact.phones.phones.length === 2,
+    contact.phones.phones[0] instanceof Phone,
+    contact.phones.phones[1] instanceof Phone
 )
 
+console.info('\n\nКлассический способ определения класса\n')
 
+var Model= function() {
 
-var S1= Schema({
-    s1: Schema.Property()
-})
-S1.Classmethod= function () {}
+    this.key= Schema.Property({ verbose:'путь к данным модели', require:true })
+    this.loaded= Schema.Property({ value:false })
 
-var S11= S1({
-    s11: Schema.Property()
-})
+    Schema.apply(this, arguments)
+}
+Model.prototype= Schema.prototype
 
 console.log(
-    S11.Classmethod === S1.Classmethod
+    Model instanceof Function
 )
 
 
 
-var S2= Schema()
-S2.inherit= function (Extended, Parent) {
-    console.log(
-        Parent === S2
-    )
-}
-
-var S= Schema()
-S.prototype.init= function () {
-    console.log(
-        this.constructor === S,
-        this.constructor.Property === Schema.Property
-    )
-
-}
-new S
+//var model= null
+//
+//try {
+//    model= new Model()
+//} catch (e) {
+//    console.log(
+//        e instanceof Schema.Property.BadValueError
+//    )
+//} finally {
+//    console.log(
+//        model === null
+//    )
+//}
 
 
-var T1= function (value) {
-    console.log(value === 1)
-}
-var T2= function (value) {
-    console.log(value === 2)
-}
-var S1= Schema({
-    p1: Schema.Property({
-        type: T1,
-        value: 1
-    }),
-    p2: Schema.Property({
-        type: T2,
-        default: 2
-    }),
-})
-var s1= new S1
-console.log(
-    s1.p1 instanceof T1,
-    s1.p2 instanceof T2
-)
+
+//var model= new Model({
+//    key:'path/to/data',
+//    loaded:true,
+//    other:'something'
+//})
+//
+//console.log(
+//    model instanceof Model, model instanceof Schema,
+//    model.key == 'path/to/data', model.loaded == true, model.other == 'something'
+//)
+//
+//try {
+//    model.key= false
+//} catch (e) {
+//    console.log(
+//        e instanceof Schema.Property.BadValueError
+//    )
+//} finally {
+//    console.log(
+//        model.key !== false, model.key == 'path/to/data'
+//    )
+//}
