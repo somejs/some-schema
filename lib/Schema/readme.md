@@ -16,7 +16,5 @@
 Инстанцирует экземпляр схемы, объявляет свойства, и заполняет их переданными значениями **values**.
 
  
-##### Экспортирует
-
 # [Schema.Property](https://github.com/somejs/some-schema/tree/master/lib/Schema/Property)
 Свойство схемы. Модель дескриптора свойства js-объекта.

@@ -22,13 +22,13 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 # [Schema.Property](https://github.com/somejs/some-schema/tree/master/lib/Schema/Property)
 Свойство схемы. Модель дескриптора свойства js-объекта.
 
-##### Параметры определения свойства
+###### Параметры дескриптора
 
 **property.type** — конструктор, экземпляром которого должно являться значение свойства. Если значение не соответствует указанному типу, свойство пытается инстанцировать значение нужного типа с помощью имеющегося конструктора. Если не получается — бросает исключение ```BadValueError```.
 
 **property.value** — значение свойства.
 
-##### Нативные параметры свойства
+###### Нативные параметры дескриптора
 
 **property.enumerable** — свойство должно быть видимо. По умолчанию — ```false```.
 
@@ -36,7 +36,7 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 
 **property.writable** — значение можно изменить. По умолчанию — ```false```.
 
-##### Методы класса
+###### Методы класса
 
 ### [Property.define](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L135) (obj, k, descriptor)
 Определяет свойство в указанном объекте **obj** под именем **k** согласно определению **descriptor**.
@@ -48,7 +48,7 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 ### [Property.copy](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L168) (src, obj)
 Копирует свойства из объекта **src** в объект **obj**.
 
-##### Методы экземпляра
+###### Методы экземпляра
 
 ### [property.define](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L103) (obj, k)
 Определяет текущее свойство в указанном объекте **obj** под именем **k**.
@@ -57,7 +57,5 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 Проверяет значение **value** на соответствие требованиям свойства.
 
  
-##### Экспортирует
-
 # [Schema.Property.BadValue](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L189)
 Ошибка валидации значения.
