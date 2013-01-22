@@ -1,12 +1,13 @@
-# [some.js](http://somejs.org/schema) / schema [![Build Status](https://secure.travis-ci.org/freaking-awesome/some-schema.png)](http://travis-ci.org/freaking-awesome/some-schema)
+# [some-schema](http://somejs.org/schema) [![Build Status](https://secure.travis-ci.org/somejs/some-schema.png)](http://travis-ci.org/somejs/some-schema)
 
-Язык декларативного описания данных 
+Язык декларативного описания данных.
 
 Используется для моделирования сложных структур данных в виде вложенных схем. Поддерживает наследование и переопределение свойств. Реализует возможность валидации значений.
 
+ 
 ## Установка
 ```
-npm install https://github.com/freaking-awesome/some-schema/archive/master.tar.gz
+npm install https://github.com/somejs/some-schema/archive/master.tar.gz
 npm test
 ```
 Зависимостей нет. Для тестирования необходимы **[mocha]()** и **[chai]()**.
@@ -19,7 +20,7 @@ npm test
 ```javascript
 var Schema= require('some-schema')
 var Foo= Schema({
-    'f': 'foo',
+    'f': Schema.Property({ value:'foo' }),
 })
 ```
 Возвращает конструктор схемы, определения свойств которого расширены переданными определениями.
@@ -27,10 +28,10 @@ var Foo= Schema({
 Определение потомков:
 ```javascript
 var Bar= Foo({
-    'b': Schema.Property({ default:'bar' }),
+    'b': Schema.Property({ value:'bar' }),
 })
 var Baz= Bar({
-    'b': Schema.Property({ default:'baz' }),
+    'b': Schema.Property({ value:'baz' }),
 })
 ```
 Возвращает конструктор потомка, который наследует тип и свойства родителя.
@@ -64,34 +65,45 @@ assert(
 ,   baz.o == 'other'
 )
 ```
-Определения свойств доступны в специальном свойстве *properties*:
+Определения свойств доступны в экземпляре через конструктор — *schema.constructor.properties*:
 ```javascript
 assert(
-    baz.properties
+    baz.constructor.properties
 )
 assert(
-    baz.properties.f instanceof Schema.Property
-,   baz.properties.f.default === 'foo'
+    baz.constructor.properties.f instanceof Schema.Property
+,   baz.constructor.properties.f.value === 'foo'
 )
 assert(
-    baz.properties.b instanceof Schema.Property
-,   baz.properties.b.default === 'baz'
+    baz.constructor.properties.b instanceof Schema.Property
+,   baz.constructor.properties.b.value === 'baz'
 )
 assert(
-    undefined === baz.properties.o 
+    undefined === baz.constructor.properties.o
 )
 ```
 В качестве определения свойства можно использовать схему:
 ```javascript
 var User= Schema({
     'type': 'user',
-    'name': Schema.Property({ default:'anonymous' }),
-    'profile': Schema({
+    'name': Schema.Property({ value:'anonymous' }),
+    'profile1': Schema.Property({ // первый вариант определения
+        type: Schema({
+            'type': 'profile',
+            'firstname': Schema.Property(),
+            'lastname': Schema.Property(),
+            'midname': Schema.Property(),
+        }),
+        value: { // можно указать значение инициализации типа
+            'firstname': 'Anonymous' // с заглавной же
+        }
+    }),
+    'profile2': Schema({ // второй вариант определения
         'type': 'profile',
         'firstname': Schema.Property(),
         'lastname': Schema.Property(),
         'midname': Schema.Property(),
-    })
+    }),
 })
 var user= new User({
     name: 'Alice',
@@ -107,25 +119,22 @@ assert(
 ```
 
  
-
 ## API и [документация](http://api.somejs.org/schema)
 
  
-
-# [Schema](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema)
+# [Schema](https://github.com/somejs/some-schema/tree/master/lib/Schema)
 Схема. Модель js-объекта.
 
-### [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L5) (parent, properties)
+### [Schema](https://github.com/somejs/some-schema/blob/master/lib/Schema/index.js#L5) (parent, properties)
 Расширяет переданный конструктор **parent** определениями **properties**. Если родительский конструктор не передан, расширяет конструктор схемы. Возвращает конструктор потомка.
 
-### new [Schema](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/index.js#L81) (values)
+### new [Schema](https://github.com/somejs/some-schema/blob/master/lib/Schema/index.js#L81) (values)
 Инстанцирует экземпляр схемы, объявляет свойства, и заполняет их переданными значениями **values**.
 
  
-
 ##### Экспортирует
 
-# [Schema.Property](https://github.com/freaking-awesome/some-schema/tree/master/lib/Schema/Property)
+# [Schema.Property](https://github.com/somejs/some-schema/tree/master/lib/Schema/Property)
 Свойство схемы. Модель дескриптора свойства js-объекта.
 
 Может быть сконструирована из js-дескриптора:
@@ -137,7 +146,7 @@ descriptor= new Schema.Property(
 И может быть использована в качестве js-дескриптора:
 ```javascript
 Object.defineProperty(obj, 'foo', new Schema.Property(
-    configurable:true, default:null
+    configurable:true, value:null
 ))
 ```
 
@@ -145,11 +154,7 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 
 **property.type** — конструктор, экземпляром которого должно являться значение свойства. Если значение не соответствует указанному типу, свойство пытается инстанцировать значение нужного типа с помощью имеющегося конструктора. Если не получается — бросает исключение ```BadValueError```.
 
-**property.default** — значение свойства. По умолчанию — ```null```.
-
-**property.require**, или **property.required** — указывает на то, что свойство обязательно должно иметь некое значение. Простейший валидатор.
-
-**property.validate** — функция проверки значения. Может менять устанавливаемое значение. Для неподходящего бросает исключение ```BadValueError```.
+**property.value** — значение свойства.
 
 ##### Нативные параметры свойства
 
@@ -159,36 +164,32 @@ Object.defineProperty(obj, 'foo', new Schema.Property(
 
 **property.writable** — значение можно изменить. По умолчанию — ```false```.
 
-Если при инстанцировании не указано значение, — ```descriptor.value```, — то свойство будет создано с закрытым от прямого изменения (с помощь геттера и сеттера) значением. По умолчанию значением свойства будет ```descriptor.default```
-
 ##### Методы класса
 
-### [Property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L135) (obj, k, descriptor)
+### [Property.define](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L135) (obj, k, descriptor)
 Определяет свойство в указанном объекте **obj** под именем **k** согласно определению **descriptor**.
 
-### [Property.map](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L149) (obj, iterator)
+### [Property.map](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L149) (obj, iterator)
 Получает дескрипторы свойств объекта **obj** и передает их, и их имена в функцию **iterator(property, k)**
 Если **iterator** не указан, — возвращает массив дескрипторов.
 
-### [Property.copy](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L168) (src, obj)
+### [Property.copy](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L168) (src, obj)
 Копирует свойства из объекта **src** в объект **obj**.
 
 ##### Методы экземпляра
 
-### [property.define](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L103) (obj, k)
+### [property.define](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L103) (obj, k)
 Определяет текущее свойство в указанном объекте **obj** под именем **k**.
 
-### [property.validate](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L117) (value)
+### [property.validate](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L117) (value)
 Проверяет значение **value** на соответствие требованиям свойства.
 
  
-
 ##### Экспортирует
 
-# [Schema.Property.BadValue](https://github.com/freaking-awesome/some-schema/blob/master/lib/Schema/Property/index.js#L189)
+# [Schema.Property.BadValue](https://github.com/somejs/some-schema/blob/master/lib/Schema/Property/index.js#L189)
 Ошибка валидации значения.
 
  
-
 ## Лицензия
 MIT
