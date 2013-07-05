@@ -1,31 +1,36 @@
 {
-  "name": "some-schema",
-  "version": "0.3.3",
+  "name": "some-schema", "version": "0.5.0",
+
   "description": "some schema dsl",
+
   "keywords": [
     "some", "schema", "domain", "specific", "language",
     "data", "object", "validate"
   ],
+
   "repository": {
     "type": "git",
     "url": "https://github.com/somejs/some-schema.git"
   },
+
   "author": {
-    "name": "Teh Freak",
-    "email": "tehfreak@awesome39.com"
+    "name": "Michael F", "email": "tehfreak@awesome39.com"
   },
+
   "main": "./lib/Schema",
+
   "scripts": {
     "test": "mocha --reporter spec"
   },
-  "dependencies": {
-  },
+
   "devDependencies": {
     "mocha": "*",
     "chai": "*"
   },
+
   "engines": {
     "node": ">=0.6"
   },
+
   "license": "MIT"
 }
