@@ -1,6 +1,6 @@
 var assert= require('chai').assert
 
-module.exports= function (exports) { return function () {
+module.exports= function (Schema) { return function () {
 
 
 
