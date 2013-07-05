@@ -24,16 +24,38 @@ module.exports= function (Schema) { return function () {
 
     describe('Schema instance: ...', function () {
 
+        Schema.properties= {
+            'foo': new Schema.Property(Number)
+        }
+
         var schema= new Schema(undefined, {
-            'foo': new Schema.Property(String)
+            'bar': new Schema.Property(String)
         })
 
         it('... should have defined properies', function () {
-            assert.isNull(schema.foo)
-            assert.isUndefined(schema.bar)
+            assert.isNull(schema.bar)
+            assert.isUndefined(schema.baz)
+        })
+
+        describe('Schema#init(values):', function () {
+
+            var schema= new Schema({foo:0})
+
+            it('should initialize values of all defined properies', function () {
+
+                assert.strictEqual(schema.foo, 0)
+                assert.isUndefined(schema.bar)
+
+                schema.init({foo:'1', bar:'2'})
+
+                assert.strictEqual(schema.foo, 1)
+                assert.isUndefined(schema.bar)
+            })
         })
 
         describe('Schema#init(values, properties):', function () {
+            Schema.properies= {}
+
             var schema= new Schema()
 
             schema.init(undefined, {
@@ -43,7 +65,6 @@ module.exports= function (Schema) { return function () {
 
             it('should define properies and initialize values', function () {
 
-                assert.isUndefined(schema.foo)
                 assert.isNull(schema.bar)
                 assert.isNull(schema.baz)
 
@@ -69,29 +90,6 @@ module.exports= function (Schema) { return function () {
                 assert.strictEqual(schema.foo, '1')
                 assert.strictEqual(schema.bar, '2')
                 assert.strictEqual(schema.baz, '3')
-            })
-        })
-
-        describe('Schema#init(values):', function () {
-            Schema.properties= {
-                'foo': new Schema.Property(Number),
-                'bar': new Schema.Property(Number),
-                'baz': new Schema.Property(Number)
-            }
-
-            var schema= new Schema({foo:0})
-
-            it('should initialize values of all defined properies', function () {
-
-                assert.strictEqual(schema.foo, 0)
-                assert.isNull(schema.bar)
-                assert.isNull(schema.baz)
-
-                schema.init({foo:'1', bar:'2', baz:'3'})
-
-                assert.strictEqual(schema.foo, 1)
-                assert.strictEqual(schema.bar, 2)
-                assert.strictEqual(schema.baz, 3)
             })
         })
     })
